@@ -1,0 +1,17 @@
+{
+  "laundry": [
+    {
+      "name": "Durga Swami",
+      "schema": [
+        "Pants/Trousers/Jeans",
+        "Shirts",
+        "T-Shirts",
+        "1/2 Phants / Shorts",
+        "Towels",
+        "Pillow Covers",
+        "Single Bedsheet",
+        "Others"
+      ]
+    }
+  ]
+}
