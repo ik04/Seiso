@@ -1,14 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const {
-  initLaundryCollection,
-  getLaundries,
-  getSchema,
-} = require("../controllers/laundryController");
+const { getLaundries, getSchema } = require("../controllers/laundryController");
+const requireAuth = require("../middlewares/requireAuth");
 
-router.get("/init", initLaundryCollection);
-router.get("/all", getLaundries);
-router.get("/schema/:slug", getSchema);
+router.get("/all", requireAuth, getLaundries);
+router.get("/schema/:slug", requireAuth, getSchema);
 
 module.exports = router;
