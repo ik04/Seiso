@@ -3,14 +3,14 @@
     {
       "name": "Durga Swami",
       "schema": [
-        "Pants/Trousers/Jeans",
-        "Shirts",
-        "T-Shirts",
-        "1/2 Phants / Shorts",
-        "Towels",
+        "pants/trousers/jeans",
+        "shirts",
+        "t-shirts",
+        "1/2 Phants/Shorts",
+        "towels",
         "Pillow Covers",
-        "Single Bedsheet",
-        "Others"
+        "single bedsheet",
+        "others"
       ]
     }
   ]
