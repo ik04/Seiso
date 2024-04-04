@@ -11,8 +11,11 @@ const Role = require("./enums/Role");
 const path = require("path");
 const fs = require("fs");
 const bcrypt = require("bcrypt");
+const cookieParser = require("cookie-parser");
+const Slip = require("./models/Slip");
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/healthcheck", (req, res) => {
   res.status(200).json({ message: "Hi from Seiso! ~ Ishaan Khurana" });
@@ -59,6 +62,12 @@ const init = async (req, res) => {
 };
 
 app.get("/init", init);
+app.get("/nuke", async function (req, res) {
+  await User.deleteMany({});
+  await Laundry.deleteMany({});
+  await Slip.deleteMany({});
+  res.status(200).json({ message: "nuked tables" });
+});
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -71,3 +80,5 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+// error handling and better validation

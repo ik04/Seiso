@@ -7,11 +7,18 @@ const requireAuth = async (req, res, next) => {
   }
   const token = authorization.split(" ")[1];
   try {
-    const { _id } = jwt.verify(token, process.env.SECRET);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!decodedToken) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+    const _id = decodedToken._id;
     req.user = await User.findOne({ _id }).select("_id");
     next();
   } catch (err) {
     console.log(err);
+    if (err.name === "TokenExpiredError") {
+      return res.status(401).json({ error: "Token has expired" });
+    }
     return res.status(401).json({ error: "Unauthorized" });
   }
 };

@@ -5,6 +5,12 @@ const getLaundries = async (req, res) => {
   res.status(200).json({ Laundries: Laundries });
 };
 
+const addLaundry = (req, res) => {
+  try {
+    const { name, schema } = req.body;
+  } catch (err) {}
+};
+
 const getSchema = async (req, res) => {
   try {
     const { slug } = req.params;
