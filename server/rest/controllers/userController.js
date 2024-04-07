@@ -1,35 +1,67 @@
 require("dotenv").config();
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+const UserSignupSchema = require("../validation/SignupUser");
+const UserLoginSchema = require("../validation/LoginUser");
 
 const createToken = (_id) => {
   return jwt.sign({ _id }, process.env.SECRET, { expiresIn: "3d" });
 };
+const { ZodError } = require("zod");
+
+const signup = async (req, res) => {
+  const { email, password, name } = req.body;
+  try {
+    const validatedUserData = UserSignupSchema.parse({ name, email, password });
+
+    const user = await User.signup(
+      validatedUserData.email,
+      validatedUserData.password,
+      validatedUserData.name
+    );
+    const token = createToken(user._id);
+    res.status(201).json({ message: "user created", token });
+  } catch (err) {
+    if (err.errors) {
+      const mappedErrors = err.errors.map((error) => ({
+        message: error.message,
+        path: error.path.join("."),
+      }));
+      res.status(400).json({ errors: mappedErrors });
+    } else {
+      console.error(err);
+      res.status(400).json({ message: err.message });
+    }
+  }
+};
+
 const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.login(email, password);
+    const validatedUserData = UserLoginSchema.parse({ email, password });
+    const user = await User.login(
+      validatedUserData.email,
+      validatedUserData.password
+    );
     const token = createToken(user._id);
     res.cookie("at", token, {
       httpOnly: true,
     });
     res.status(200).json({ message: "Logged in!", token });
   } catch (err) {
-    console.log(err);
+    if (err.errors) {
+      const mappedErrors = err.errors.map((error) => ({
+        message: error.message,
+        path: error.path.join("."),
+      }));
+      res.status(400).json({ errors: mappedErrors });
+    } else {
+      console.error(err);
+      res.status(400).json({ message: err.message });
+    }
   }
 };
 
-const signup = async (req, res) => {
-  const { email, password, name } = req.body;
-  try {
-    const user = await User.signup(email, password, name);
-    const token = createToken(user._id);
-    res.status(201).json({ message: "user created", token });
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ message: err.message });
-  }
-};
 const getUserData = async (req, res) => {
   try {
     const token = req.cookies.at;
