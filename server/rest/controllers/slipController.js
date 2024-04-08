@@ -1,15 +1,13 @@
 const Slip = require("../models/Slip");
 const Laundry = require("../models/Laundry");
 const Status = require("../enums/Status");
-
-const test = (req, res) => {
-  res.json({ user: req.user });
-};
+const AddSlipSchema = require("../validation/AddSlip");
 
 const addSlip = async (req, res) => {
   const { items, laundrySlug } = req.body;
 
   try {
+    // todo: add zod validation
     const laundry = await Laundry.findOne({ slug: laundrySlug });
 
     if (!laundry) {
@@ -26,6 +24,15 @@ const addSlip = async (req, res) => {
       return res
         .status(400)
         .json({ error: "Not all keys in items are present in the schema" });
+    }
+    const allValuesNumbers = itemKeys.every(
+      (key) => typeof items[key] === "number"
+    );
+
+    if (!allValuesNumbers) {
+      return res
+        .status(400)
+        .json({ error: "Slip item values should be numbers" });
     }
     const slip = await Slip.create({
       laundry: laundry._id,
@@ -55,9 +62,11 @@ const processSlip = async (req, res) => {
     if (!slip) {
       return res.status(404).json({ error: "Slip not found" });
     }
-
+    if (slip.status === Status.PROCESSING) {
+      return res.status(409).json({ error: "Slip is already being processed" });
+    }
     if (slip.status === Status.PROCESSED) {
-      return res.status(400).json({ error: "Slip is already processed" });
+      return res.status(409).json({ error: "Slip is already processed" });
     }
 
     const updatedSlip = await Slip.updateOne(
@@ -71,7 +80,9 @@ const processSlip = async (req, res) => {
         .json({ error: "Slip not found or already being processed" });
     }
 
-    return res.status(200).json({ message: "Slip is being processed" });
+    return res
+      .status(200)
+      .json({ message: "Slip is now under processing", slip: slip });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal Server Error" });
@@ -82,6 +93,14 @@ const finishSlip = async (req, res) => {
   const { uuid } = req.params;
 
   try {
+    const slip = await Slip.findOne({ uuid });
+
+    if (slip.status === Status.PROCESSING) {
+      return res.status(409).json({ error: "Slip is already being processed" });
+    }
+    if (slip.status === Status.PROCESSED) {
+      return res.status(409).json({ error: "Slip is already processed" });
+    }
     const updatedSlip = await Slip.updateOne(
       { uuid },
       { $set: { status: Status.PROCESSED } }

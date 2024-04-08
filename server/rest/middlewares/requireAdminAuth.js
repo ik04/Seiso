@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+
 const requireAdminAuth = async (req, res, next) => {
   const { authorization } = req.headers;
   if (!authorization) {
@@ -8,10 +9,13 @@ const requireAdminAuth = async (req, res, next) => {
   const token = authorization.split(" ")[1];
   try {
     const { _id } = jwt.verify(token, process.env.SECRET);
-    const user = await User.find({ _id });
+    const user = await User.findOne({ _id });
     const role = user.role;
-    if (role != 0) {
+    if (role !== 0) {
       throw new Error("You are not an admin");
+    }
+    if (!req.user) {
+      req.user = {};
     }
     req.user._id = user._id;
     next();

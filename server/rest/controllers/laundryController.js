@@ -1,14 +1,23 @@
 const Laundry = require("../models/Laundry");
+const AddLaundrySchema = require("../validation/AddLaundry");
 
 const getLaundries = async (req, res) => {
   const Laundries = await Laundry.find({});
   res.status(200).json({ Laundries: Laundries });
 };
 
-const addLaundry = (req, res) => {
+const addLaundry = async (req, res) => {
   try {
     const { name, schema } = req.body;
-  } catch (err) {}
+    const validated = AddLaundrySchema.parse({ name, schema });
+    const laundry = await Laundry.create({
+      name: validated.name,
+      schema: validated.schema,
+    });
+    return res.status(201).json({ message: "Laundry Added!" });
+  } catch (err) {
+    // todo: handle errors
+  }
 };
 
 const getSchema = async (req, res) => {
@@ -28,4 +37,5 @@ const getSchema = async (req, res) => {
 module.exports = {
   getLaundries,
   getSchema,
+  addLaundry,
 };
