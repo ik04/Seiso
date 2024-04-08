@@ -20,6 +20,9 @@ const signup = async (req, res) => {
       validatedUserData.name
     );
     const token = createToken(user._id);
+    res.cookie("at", token, {
+      httpOnly: true,
+    });
     res.status(201).json({ message: "user created", token });
   } catch (err) {
     if (err.errors) {

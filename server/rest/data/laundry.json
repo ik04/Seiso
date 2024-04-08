@@ -12,6 +12,18 @@
         "single bedsheet",
         "others"
       ]
+    },
+    {
+      "name": "Spinlux",
+      "schema": [
+        "Wahing and drying with ironing (KG/Load) Regular",
+        "Wahing and drying with ironing (KG/Load) Heavy",
+        "Dry Cleaning",
+        "Steam Ironing",
+        "Express Service",
+        "Shoes Cleaning",
+        "Other charges"
+      ]
     }
   ]
 }
