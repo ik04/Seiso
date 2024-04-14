@@ -14,6 +14,7 @@ const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const Slip = require("./models/Slip");
 const cors = require("cors");
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
 app.use(express.json());
 app.use(cookieParser());
@@ -26,27 +27,14 @@ app.use("/laundry", laundryRoutes);
 app.use("/slip", slipRoutes);
 app.use("/", userRoutes);
 
-var whitelist = ["http://localhost:3000"];
-var corsOptions = {
-  credentials: true,
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
-
-app.use(cors(corsOptions));
-
+// ! dev only function, will patch out in prod
 const init = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   const hash = bcrypt.hash(process.env.ADMIN_PASS, salt);
   const admin = User.create({
     email: process.env.ADMIN_EMAIL,
     password: hash,
-    name: "ishaan",
+    name: process.env.ADMIN_NAME,
     role: Role.ADMIN,
   });
   try {
