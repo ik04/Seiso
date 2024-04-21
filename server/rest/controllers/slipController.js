@@ -49,7 +49,13 @@ const addSlip = async (req, res) => {
 
 const getSlips = async (req, res) => {
   const id = req.user._id;
-  const slips = await Slip.find({ user: id });
+  const slips = await Slip.find({ user: id })
+    .populate({
+      path: "laundry",
+      select: "name",
+    })
+    .select("items status uuid");
+
   return res.status(200).json({ slips: slips });
 };
 

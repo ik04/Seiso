@@ -1,14 +1,66 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
-import React from "react";
+import React, { FormEvent } from "react";
 
 const page = () => {
+  const login = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+
+    let formData = new FormData();
+
+    for (let i = 0; i < form.elements.length; i++) {
+      const element = form.elements[i] as HTMLInputElement;
+      if (element.name) {
+        formData.append(element.name, element.value);
+      }
+    }
+
+    const loginData = {
+      email: formData.get("email"),
+      password: formData.get("password"),
+    };
+
+    try {
+      const resp = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          credentials: "include",
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (resp.ok) {
+        const data = await resp.json();
+        console.log(data);
+        toast({
+          variant: "default",
+          title: "Logged in!",
+          description: "you have been logged in successfully!",
+        });
+        location.href = "/dashboard";
+      } else {
+        const errorData = await resp.json();
+        toast({
+          title: errorData.message,
+          variant: "destructive",
+          description: "please re-fill your details",
+        });
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
   return (
     <div>
       <div className="bg-creamyPeach h-screen font-spaceGrotesk flex justify-center items-center">
-        <div className="flex flex-col space-y-4">
+        <form onSubmit={login} className="flex flex-col space-y-4">
           <h2 className="text-azureOcean font-limelight text-5xl tracking-widest uppercase text-center">
             Seiso
           </h2>
@@ -31,6 +83,7 @@ const page = () => {
             type="text"
           />
           <Button
+            type="submit"
             variant={"ghost"}
             className="text-azureOcean font-spaceGrotesk w-full uppercase text-lg font-bold tracking-[0.2rem]"
           >
@@ -42,7 +95,7 @@ const page = () => {
               Register
             </Link>
           </p>
-        </div>
+        </form>
       </div>
     </div>
   );

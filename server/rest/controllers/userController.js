@@ -47,9 +47,7 @@ const login = async (req, res) => {
       validatedUserData.password
     );
     const token = createToken(user._id);
-    res.cookie("at", token, {
-      httpOnly: true,
-    });
+    res.cookie("at", token);
     res.status(200).json({ message: "Logged in!", token });
   } catch (err) {
     if (err.errors) {
@@ -68,6 +66,7 @@ const login = async (req, res) => {
 const getUserData = async (req, res) => {
   try {
     const token = req.cookies.at;
+    console.log(token);
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const userId = decodedToken._id;
     const user = await User.find({ _id: userId });
