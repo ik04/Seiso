@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/components/ui/use-toast";
+import axios from "axios";
 import Link from "next/link";
 import React, { FormEvent } from "react";
 
@@ -26,34 +27,28 @@ const page = () => {
     };
 
     try {
-      const resp = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          credentials: "include",
-        },
-        body: JSON.stringify(loginData),
+      const resp = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/login`,
+        { email: loginData.email, password: loginData.password },
+        {
+          withCredentials: true,
+        }
+      );
+      toast({
+        variant: "default",
+        title: "Logged in!",
+        description: "you have been logged in successfully!",
       });
+      console.log(resp.data);
 
-      if (resp.ok) {
-        const data = await resp.json();
-        console.log(data);
-        toast({
-          variant: "default",
-          title: "Logged in!",
-          description: "you have been logged in successfully!",
-        });
-        location.href = "/dashboard";
-      } else {
-        const errorData = await resp.json();
-        toast({
-          title: errorData.message,
-          variant: "destructive",
-          description: "please re-fill your details",
-        });
-      }
-    } catch (error) {
-      console.error("Network error:", error);
+      location.href = "/dashboard";
+    } catch (error: any) {
+      // console.error("Network error:", error);
+      toast({
+        title: error.response.data.message,
+        variant: "destructive",
+        description: "please re-fill your details",
+      });
     }
   };
 

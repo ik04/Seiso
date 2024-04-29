@@ -47,7 +47,12 @@ const login = async (req, res) => {
       validatedUserData.password
     );
     const token = createToken(user._id);
-    res.cookie("at", token);
+    res.cookie("at", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      domain: "localhost",
+    });
     res.status(200).json({ message: "Logged in!", token });
   } catch (err) {
     if (err.errors) {
@@ -66,16 +71,32 @@ const login = async (req, res) => {
 const getUserData = async (req, res) => {
   try {
     const token = req.cookies.at;
-    console.log(token);
+
+    if (!token) {
+      return res.status(401).json({ message: "Unauthorized: Token not found" });
+    }
+
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const userId = decodedToken._id;
-    const user = await User.find({ _id: userId });
-    res.status(200).json({ user: user, token: token });
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ user, token });
   } catch (err) {
     console.error(err);
+    if (err.name === "JsonWebTokenError") {
+      return res.status(401).json({ message: "Unauthorized: Invalid token" });
+    } else if (err.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Unauthorized: Token expired" });
+    }
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 const logout = (req, res) => {
   res.clearCookie("at");
 
