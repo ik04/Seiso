@@ -10,6 +10,8 @@ export const GlobalState = ({
   children: ReactNode;
   baseUrl?: string;
 }) => {
+  const [name, setName] = useState<string>();
+  const [token, setToken] = useState<string>();
   const callUserData = async () => {
     try {
       const resp = await axios.get(
@@ -18,7 +20,12 @@ export const GlobalState = ({
           withCredentials: true,
         }
       );
-      console.log(resp);
+      // console.log(resp.data);
+      axios.defaults.headers.common[
+        "Authorization"
+      ] = `Bearer ${resp.data.token}`;
+      setName(resp.data.user.name);
+      setToken(resp.data.token);
     } catch (err) {
       console.log(err);
     }
@@ -27,5 +34,9 @@ export const GlobalState = ({
   useEffect(() => {
     callUserData();
   }, []);
-  return <GlobalContext.Provider value={{}}>{children}</GlobalContext.Provider>;
+  return (
+    <GlobalContext.Provider value={{ token }}>
+      {children}
+    </GlobalContext.Provider>
+  );
 };

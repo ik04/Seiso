@@ -79,7 +79,7 @@ const getUserData = async (req, res) => {
     const decodedToken = jwt.verify(token, process.env.SECRET);
     const userId = decodedToken._id;
 
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).select("email name role");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });

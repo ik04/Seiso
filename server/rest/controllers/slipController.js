@@ -52,11 +52,18 @@ const getSlips = async (req, res) => {
   const slips = await Slip.find({ user: id })
     .populate({
       path: "laundry",
-      select: "name",
+      select: { name: 1, slug: 1, _id: 0 },
     })
-    .select("items status uuid");
+    .select({ items: 1, status: 1, uuid: 1, _id: 0 });
+  const slipsWithTotalItems = slips.map((slip) => {
+    const totalItems = Object.values(slip.items).reduce(
+      (acc, val) => acc + val,
+      0
+    );
+    return { ...slip.toObject(), total_items: totalItems };
+  });
 
-  return res.status(200).json({ slips: slips });
+  return res.status(200).json({ slips: slipsWithTotalItems });
 };
 
 const processSlip = async (req, res) => {

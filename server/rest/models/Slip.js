@@ -27,6 +27,10 @@ const slipSchema = new mongoose.Schema({
     type: Number,
     default: Status.UNPROCESSED,
   },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Slip = mongoose.model("Slip", slipSchema);
