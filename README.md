@@ -30,3 +30,4 @@ cd server/rest
 pnpm i
 pnpm dev
 ```
+Make sure to setup the .env files for both server and client and run the /init endpoint to hydrate the collection with laundries and an admin account
