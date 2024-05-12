@@ -5,6 +5,7 @@ A simple laundry tracker for easy access to slip records from different laundrom
 - ![Nextjs](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 - ![Expressjs](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
 - ![Nodejs](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+- ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 
 
 ## For Contributions:
