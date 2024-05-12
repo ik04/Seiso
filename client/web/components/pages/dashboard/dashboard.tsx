@@ -6,6 +6,7 @@ import axios from "axios";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import { Slip } from "@/types/Slip";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Status } from "@/app/enums/Status";
 
 export const Dashboard = () => {
   const { token } = useContext(GlobalContext);
@@ -48,17 +49,38 @@ export const Dashboard = () => {
               {slips.map((slip) => (
                 <div
                   key={slip.uuid}
-                  className="bg-azureOcean md:w-80 md:h-[30rem] text-breezyAqua font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-center px-3"
+                  className="bg-azureOcean md:w-80 md:h-[30rem] text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
                 >
-                  {Object.entries(slip.items).map(
-                    ([key, value]: [string, any]) => (
-                      <div className="flex space-x-3" key={key}>
-                        <span>{key}: </span>
-                        <span>{value}</span>
+                  <div className="border-b-2 border-dashed border-creamyPeach text-center p-2 text-3xl">
+                    {slip.laundry.name}
+                  </div>
+                  <div className="flex-1 flex flex-col justify-center space-y-5">
+                    {Object.entries(slip.items).map(
+                      ([key, value]: [string, any]) => (
+                        <div className="flex space-x-3" key={key}>
+                          <span>{key}: </span>
+                          <span>{value}</span>
+                        </div>
+                      )
+                    )}
+                  </div>
+                  <div className="flex-2 border-t-2 border-dashed border-creamyPeach">
+                    <div className="stats text-breezyAqua text-start p-2">
+                      <div className="uppercase">Total: {slip.total_items}</div>
+                      <div className="text-base">
+                        <div className="uppercase">Status:</div>
+                        <div className="uppercase text-creamyPeach">
+                          {Status[slip.status as keyof typeof Status]}
+                        </div>
                       </div>
-                    )
-                  )}
-                  <div className="text-center">{slip.laundry.name}</div>
+                    </div>
+                    <div className="buttons">
+                      <div className="view capitalize bg-breezyAqua text-azureOcean">
+                        view
+                      </div>
+                      <div className=""></div>
+                    </div>
+                  </div>
                 </div>
               ))}
               <Link href={"/slip/add"}>

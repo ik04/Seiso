@@ -3,4 +3,5 @@ export interface Slip {
   uuid: string;
   laundry: { name: string; slug: string };
   status: number;
+  total_items: number;
 }
