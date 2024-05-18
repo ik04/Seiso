@@ -3,7 +3,7 @@ const AddLaundrySchema = require("../validation/AddLaundry");
 
 const getLaundries = async (req, res) => {
   const Laundries = await Laundry.find({});
-  res.status(200).json({ Laundries: Laundries });
+  res.status(200).json({ laundries: Laundries });
 };
 
 const addLaundry = async (req, res) => {
