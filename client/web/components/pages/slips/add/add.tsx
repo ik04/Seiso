@@ -192,3 +192,5 @@ export const AddPage = () => {
 };
 
 export default AddPage;
+// todo: fine tune ui and make it better, remove old functionality and replace with add slip
+// todo: add the necessary fields in the server and send correct stuff to the server on submit
