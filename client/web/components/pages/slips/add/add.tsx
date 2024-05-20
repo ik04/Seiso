@@ -47,12 +47,6 @@ export const AddPage = () => {
     setFormData(updatedFormData);
   };
 
-  const display = (e: React.FormEvent) => {
-    e.preventDefault();
-    downloadFile();
-    setSubmitted(true);
-  };
-
   const total = schema.reduce((acc, item) => {
     const value = formData[item] || 0;
     return acc + value;
@@ -65,25 +59,7 @@ export const AddPage = () => {
     }
   }, [total]);
 
-  const downloadFile = () => {
-    const currentDate = new Date().toLocaleString();
-    const data = JSON.stringify(
-      {
-        date: currentDate,
-        laundry: formData,
-      },
-      null,
-      2
-    );
-
-    const blob = new Blob([data], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "laundry_slip.txt";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+  const addSlip = async () => {};
 
   return (
     <div className="h-screen bg-creamyPeach">
@@ -94,7 +70,7 @@ export const AddPage = () => {
           <select
             value={laundry}
             onChange={(e) => setLaundry(e.target.value)}
-            className="p-2 border border-azureOcean text-azureOcean bg-creamyPeach font-spaceGrotesk"
+            className="p-2 border border-azureOcean text-creamyPeach bg-azureOcean font-spaceGrotesk mb-3"
           >
             <option value="">Select your laundry</option>
             {laundries.map((laundry) => (
@@ -106,13 +82,13 @@ export const AddPage = () => {
         </div>
 
         {laundry && schema.length > 0 ? (
-          <div className="mt-5">
+          <div className="">
             {submitted ? (
               <div>
                 {schema.map((item) => (
                   <div
                     key={item}
-                    className="flex justify-between space-x-1 items-center font-mono"
+                    className="flex justify-between space-x-1 items-center font-spaceGrotesk"
                   >
                     <p>{item}:</p>
                     <p>{formData[item]}</p>
@@ -131,24 +107,30 @@ export const AddPage = () => {
               </div>
             ) : (
               <form
-                onSubmit={display}
+                onSubmit={addSlip}
                 className="flex flex-col space-y-3 items-start"
               >
                 {schema.map((item) => (
-                  <div key={item} className="flex space-x-3 items-center">
-                    <label className="text-black capitalize" htmlFor={item}>
+                  <div
+                    key={item}
+                    className="flex space-x-3 w-96 items-center justify-between text-azureOcean "
+                  >
+                    <label
+                      className="text-azureOcean font-spaceGrotesk font-semibold capitalize"
+                      htmlFor={item}
+                    >
                       {item}
                     </label>
-                    <div className="flex items-center h-full">
+                    <div className="flex items-center h-full space-x-3">
                       <button
                         type="button"
-                        className="bg-black text-white h-full px-1"
+                        className="bg-azureOcean text-white py-1 px-3"
                         onClick={() => handleChange(item, -1)}
                       >
                         -
                       </button>
                       <input
-                        className="border-black border-2 w-14 text-center"
+                        className="border-azureOcean border-2 w-14 text-center"
                         type="number"
                         name={item}
                         id={item}
@@ -163,7 +145,7 @@ export const AddPage = () => {
                       />
                       <button
                         type="button"
-                        className="bg-black text-white h-full px-1"
+                        className="bg-azureOcean text-white py-1 px-3"
                         onClick={() => handleChange(item, 1)}
                       >
                         +
@@ -171,20 +153,34 @@ export const AddPage = () => {
                     </div>
                   </div>
                 ))}
-                <p className={`font-mono ${over && "text-red-500"}`}>
+                <p
+                  className={`font-spaceGrotesk text-azureOcean font-bold ${
+                    over && "text-red-500"
+                  }`}
+                >
                   Total: {total}
                 </p>
-                <button
-                  type="submit"
-                  className="bg-black text-white p-2 capitalize"
-                >
-                  Finish
-                </button>
+                <div className="flex items-center space-x-2">
+                  <button
+                    type="submit"
+                    className="bg-azureOcean text-white p-2 capitalize"
+                  >
+                    Finish
+                  </button>
+                  <button
+                    type="reset"
+                    className="bg-azureOcean text-white p-2 capitalize"
+                  >
+                    Reset
+                  </button>
+                </div>
               </form>
             )}
           </div>
         ) : (
-          <p>Please select your laundry.</p>
+          <p className="text-azureOcean font-spaceGrotesk capitalize font-semibold text-2xl">
+            Please select your laundry.
+          </p>
         )}
       </div>
     </div>
