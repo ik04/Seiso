@@ -5,6 +5,7 @@ import axios from "axios";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import { Laundry } from "@/types/Laundry";
 import { Toaster, toast } from "sonner";
+import { url } from "inspector";
 
 export const AddPage = () => {
   const { token } = useContext(GlobalContext);
@@ -55,22 +56,43 @@ export const AddPage = () => {
   useEffect(() => {
     if (total > 16) {
       setOver(true);
-      toast.error("Laundry Over 16 Items!");
+      toast.warning("Laundry Over 16 Items!");
+    } else {
+      setOver(false);
     }
   }, [total]);
 
-  const addSlip = async () => {};
+  const addSlip = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/slip/add`;
+    try {
+      if (total == 0) {
+        toast.info("Add your clothes!");
+      }
+      if (total > 0 && laundry) {
+        const resp = await axios.post(url, {
+          laundrySlug: laundry,
+          items: formData,
+        });
+        console.log(resp.data);
+        setFormData({});
+        toast.success("Added Slip successfully!");
+      }
+    } catch (error) {
+      console.error("Error adding slip:", error);
+    }
+  };
 
   return (
     <div className="h-screen bg-creamyPeach">
       <Navbar />
-      <Toaster position="top-center" richColors />
-      <div className="p-10">
+      <Toaster position="bottom-right" richColors expand={true} />
+      <div className="p-10 flex flex-col items-center justify-center h-[90%]">
         <div>
           <select
             value={laundry}
             onChange={(e) => setLaundry(e.target.value)}
-            className="p-2 border border-azureOcean text-creamyPeach bg-azureOcean font-spaceGrotesk mb-3"
+            className="p-2 border border-azureOcean text-creamyPeach bg-azureOcean font-spaceGrotesk mb-5"
           >
             <option value="">Select your laundry</option>
             {laundries.map((laundry) => (
@@ -83,99 +105,76 @@ export const AddPage = () => {
 
         {laundry && schema.length > 0 ? (
           <div className="">
-            {submitted ? (
-              <div>
-                {schema.map((item) => (
-                  <div
-                    key={item}
-                    className="flex justify-between space-x-1 items-center font-spaceGrotesk"
-                  >
-                    <p>{item}:</p>
-                    <p>{formData[item]}</p>
-                  </div>
-                ))}
-                <p className="font-mono">Total: {total}</p>
-                <button
-                  className="bg-black text-white p-1 capitalize"
-                  onClick={() => {
-                    setSubmitted(false);
-                    setFormData({});
-                  }}
+            <form
+              onSubmit={addSlip}
+              className="flex flex-col space-y-5 items-center"
+            >
+              {schema.map((item) => (
+                <div
+                  key={item}
+                  className="flex space-x-3 w-96 items-center justify-between text-azureOcean "
                 >
-                  Redo
+                  <label
+                    className="text-azureOcean font-spaceGrotesk font-semibold capitalize"
+                    htmlFor={item}
+                  >
+                    {item}
+                  </label>
+                  <div className="flex items-center h-full space-x-3">
+                    <button
+                      type="button"
+                      className="bg-azureOcean text-white py-1 px-3"
+                      onClick={() => handleChange(item, -1)}
+                    >
+                      -
+                    </button>
+                    <input
+                      className="border-azureOcean border-2 w-14 text-center"
+                      type="number"
+                      name={item}
+                      id={item}
+                      min="0"
+                      value={formData[item] || 0}
+                      onChange={(e) =>
+                        setFormData((prevData) => ({
+                          ...prevData,
+                          [item]: parseInt(e.target.value) || 0,
+                        }))
+                      }
+                    />
+                    <button
+                      type="button"
+                      className="bg-azureOcean text-white py-1 px-3"
+                      onClick={() => handleChange(item, 1)}
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              ))}
+              <p
+                className={`font-spaceGrotesk text-azureOcean font-bold ${
+                  over && "text-yellow-600"
+                }`}
+              >
+                Total: {total}
+              </p>
+              <div className="flex items-center space-x-2">
+                <button
+                  type="reset"
+                  onClick={() => setFormData({})}
+                  className="bg-azureOcean text-white p-2 capitalize"
+                >
+                  Reset
+                </button>
+                <button
+                  type="submit"
+                  className="bg-azureOcean text-white p-2 capitalize"
+                >
+                  Finish
                 </button>
               </div>
-            ) : (
-              <form
-                onSubmit={addSlip}
-                className="flex flex-col space-y-3 items-start"
-              >
-                {schema.map((item) => (
-                  <div
-                    key={item}
-                    className="flex space-x-3 w-96 items-center justify-between text-azureOcean "
-                  >
-                    <label
-                      className="text-azureOcean font-spaceGrotesk font-semibold capitalize"
-                      htmlFor={item}
-                    >
-                      {item}
-                    </label>
-                    <div className="flex items-center h-full space-x-3">
-                      <button
-                        type="button"
-                        className="bg-azureOcean text-white py-1 px-3"
-                        onClick={() => handleChange(item, -1)}
-                      >
-                        -
-                      </button>
-                      <input
-                        className="border-azureOcean border-2 w-14 text-center"
-                        type="number"
-                        name={item}
-                        id={item}
-                        min="0"
-                        value={formData[item] || 0}
-                        onChange={(e) =>
-                          setFormData((prevData) => ({
-                            ...prevData,
-                            [item]: parseInt(e.target.value) || 0,
-                          }))
-                        }
-                      />
-                      <button
-                        type="button"
-                        className="bg-azureOcean text-white py-1 px-3"
-                        onClick={() => handleChange(item, 1)}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                ))}
-                <p
-                  className={`font-spaceGrotesk text-azureOcean font-bold ${
-                    over && "text-red-500"
-                  }`}
-                >
-                  Total: {total}
-                </p>
-                <div className="flex items-center space-x-2">
-                  <button
-                    type="submit"
-                    className="bg-azureOcean text-white p-2 capitalize"
-                  >
-                    Finish
-                  </button>
-                  <button
-                    type="reset"
-                    className="bg-azureOcean text-white p-2 capitalize"
-                  >
-                    Reset
-                  </button>
-                </div>
-              </form>
-            )}
+            </form>
           </div>
         ) : (
           <p className="text-azureOcean font-spaceGrotesk capitalize font-semibold text-2xl">
