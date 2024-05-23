@@ -44,8 +44,11 @@ export const AddPage = () => {
   const handleChange = (item: string, value: number) => {
     const updatedFormData = { ...formData };
     updatedFormData[item] = (updatedFormData[item] || 0) + value;
-    if (updatedFormData[item] < 0) updatedFormData[item] = 0; // Ensure non-negative
+    if (updatedFormData[item] <= 0) {
+      delete updatedFormData[item];
+    }
     setFormData(updatedFormData);
+    console.log(updatedFormData);
   };
 
   const total = schema.reduce((acc, item) => {

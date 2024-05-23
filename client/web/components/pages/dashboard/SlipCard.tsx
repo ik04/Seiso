@@ -11,7 +11,7 @@ export const SlipCard = (slip: Slip) => {
       <div className="border-b-2 border-dashed border-creamyPeach text-center p-3 text-3xl">
         {slip.laundry.name}
       </div>
-      <div className="flex-1 flex flex-col justify-center space-y-5">
+      <div className="flex-1 flex flex-col justify-start space-y-3 py-2z">
         {Object.entries(slip.items).map(([key, value]: [string, any]) => (
           <div className="flex space-x-3" key={key}>
             <span>{key}: </span>
