@@ -13,8 +13,13 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 
-export const DatePicker = () => {
-  const [date, setDate] = useState<Date>();
+export const DatePicker = ({
+  date,
+  setDate,
+}: {
+  date: Date | undefined;
+  setDate: React.Dispatch<React.SetStateAction<Date | undefined>>;
+}) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -25,11 +30,13 @@ export const DatePicker = () => {
             !date && "text-muted-foreground"
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4 text-azureOcean" />
+          <CalendarIcon className="mr-2 h-4 w-4 text-azureOcean font-spaceGrotesk text-base" />
           {date ? (
             format(date, "PPP")
           ) : (
-            <span className="text-azureOcean">Pick a date</span>
+            <span className="text-azureOcean text-base font-spaceGrotesk">
+              Pick a date
+            </span>
           )}
         </Button>
       </PopoverTrigger>

@@ -2,14 +2,39 @@ import { Status } from "@/app/enums/Status";
 import { Slip } from "@/types/Slip";
 import React from "react";
 
+const formatDateString = (dateString: Date) => {
+  const date = new Date(dateString);
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = (date.getMonth() + 1).toString().padStart(2, "0");
+  const year = date.getFullYear().toString().slice(-2);
+  const weekdays = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const weekday = weekdays[date.getDay()];
+  const formattedDate = `${day}/${month}/${year} (${weekday})`;
+  return formattedDate;
+};
+
 export const SlipCard = (slip: Slip) => {
+  const formattedDate = formatDateString(slip.date);
   return (
     <div
       key={slip.uuid}
       className="bg-azureOcean md:w-80 md:h-[30rem] text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
     >
-      <div className="border-b-2 border-dashed border-creamyPeach text-center p-3 text-3xl">
-        {slip.laundry.name}
+      <div className="flex flex-col">
+        <div className="border-b-2 border-dashed border-creamyPeach text-center p-3 text-3xl">
+          <h2>{slip.laundry.name}</h2>
+          <div className="text-sm">
+            Submitted: {formatDateString(slip.date)}
+          </div>
+        </div>
       </div>
       <div className="flex-1 flex flex-col justify-start space-y-3 py-2z">
         {Object.entries(slip.items).map(([key, value]: [string, any]) => (

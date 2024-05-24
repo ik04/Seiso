@@ -7,15 +7,16 @@ import { Laundry } from "@/types/Laundry";
 import { Toaster, toast } from "sonner";
 import { url } from "inspector";
 import { DatePicker } from "../datePicker";
+import { Label } from "@/components/ui/label";
 
 export const AddPage = () => {
   const { token } = useContext(GlobalContext);
-  const [laundry, setLaundry] = useState<string>(""); // laundry slug
+  const [laundry, setLaundry] = useState<string>("");
   const [laundries, setLaundries] = useState<Laundry[]>([]);
   const [schema, setSchema] = useState<string[]>([]);
   const [formData, setFormData] = useState<{ [key: string]: number }>({});
-  const [submitted, setSubmitted] = useState(false);
   const [over, setOver] = useState(false);
+  const [date, setDate] = useState<Date>();
 
   const callLaundries = async () => {
     if (token) {
@@ -49,7 +50,6 @@ export const AddPage = () => {
       delete updatedFormData[item];
     }
     setFormData(updatedFormData);
-    console.log(updatedFormData);
   };
 
   const total = schema.reduce((acc, item) => {
@@ -68,22 +68,31 @@ export const AddPage = () => {
 
   const addSlip = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/slip/add`;
+
     try {
-      if (total == 0) {
+      if (total === 0) {
         toast.info("Add your clothes!");
+        return;
       }
       if (total > 0 && laundry) {
-        const resp = await axios.post(url, {
+        let data = {
           laundrySlug: laundry,
           items: formData,
-        });
+          date: date || undefined,
+        };
+        console.log(data);
+        const resp = await axios.post(url, data);
         console.log(resp.data);
         setFormData({});
         toast.success("Added Slip successfully!");
+      } else {
+        toast.error("Please provide all required information.");
       }
     } catch (error) {
       console.error("Error adding slip:", error);
+      toast.error("Failed to add slip. Please try again.");
     }
   };
 
@@ -156,7 +165,7 @@ export const AddPage = () => {
                   </div>
                 </div>
               ))}
-              <DatePicker />
+              <DatePicker date={date} setDate={setDate} />
               <p
                 className={`font-spaceGrotesk text-azureOcean font-bold ${
                   over && "text-yellow-600"
@@ -192,5 +201,3 @@ export const AddPage = () => {
 };
 
 export default AddPage;
-// todo: fine tune ui and make it better, remove old functionality and replace with add slip
-// todo: add the necessary fields in the server and send correct stuff to the server on submit

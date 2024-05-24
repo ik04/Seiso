@@ -49,6 +49,8 @@ export const Dashboard = () => {
             <>
               {slips.map((slip) => (
                 <SlipCard
+                  date={slip.date}
+                  key={slip.uuid}
                   items={slip.items}
                   laundry={slip.laundry}
                   status={slip.status}
@@ -65,7 +67,10 @@ export const Dashboard = () => {
           ) : (
             <>
               {Array.from({ length: 10 }, (_, index) => (
-                <Skeleton className="bg-sereneSky md:w-80 md:h-[30rem]" />
+                <Skeleton
+                  key={index}
+                  className="bg-sereneSky md:w-80 md:h-[30rem]"
+                />
               ))}
             </>
           )}

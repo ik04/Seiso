@@ -4,7 +4,7 @@ const Status = require("../enums/Status");
 const AddSlipSchema = require("../validation/AddSlip");
 
 const addSlip = async (req, res) => {
-  const { items, laundrySlug } = req.body;
+  const { items, laundrySlug, date } = req.body;
 
   try {
     // todo: add zod validation
@@ -34,13 +34,22 @@ const addSlip = async (req, res) => {
         .status(400)
         .json({ error: "Slip item values should be numbers" });
     }
-    const slip = await Slip.create({
-      laundry: laundry._id,
-      user: req.user._id,
-      items: items,
-    });
-
-    res.status(201).json({ message: "Slip created successfully", slip });
+    if (date != undefined) {
+      const slip = await Slip.create({
+        laundry: laundry._id,
+        user: req.user._id,
+        items: items,
+        date: date,
+      });
+      res.status(201).json({ message: "Slip created successfully", slip });
+    } else {
+      const slip = await Slip.create({
+        laundry: laundry._id,
+        user: req.user._id,
+        items: items,
+      });
+      res.status(201).json({ message: "Slip created successfully", slip });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -54,7 +63,7 @@ const getSlips = async (req, res) => {
       path: "laundry",
       select: { name: 1, slug: 1, _id: 0 },
     })
-    .select({ items: 1, status: 1, uuid: 1, _id: 0 });
+    .select({ items: 1, status: 1, uuid: 1, _id: 0, date: 1 });
   const slipsWithTotalItems = slips.map((slip) => {
     const totalItems = Object.values(slip.items).reduce(
       (acc, val) => acc + val,
