@@ -6,6 +6,7 @@ import { GlobalContext } from "@/app/context/GlobalContext";
 import { Laundry } from "@/types/Laundry";
 import { Toaster, toast } from "sonner";
 import { url } from "inspector";
+import { DatePicker } from "../datePicker";
 
 export const AddPage = () => {
   const { token } = useContext(GlobalContext);
@@ -155,6 +156,7 @@ export const AddPage = () => {
                   </div>
                 </div>
               ))}
+              <DatePicker />
               <p
                 className={`font-spaceGrotesk text-azureOcean font-bold ${
                   over && "text-yellow-600"
