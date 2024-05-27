@@ -36,7 +36,7 @@ export const SlipCard = (slip: Slip) => {
           </div>
         </div>
       </div>
-      <div className="flex-1 flex flex-col justify-start space-y-3 py-2z">
+      <div className="flex-1 flex flex-col justify-start space-y-3 py-2">
         {Object.entries(slip.items).map(([key, value]: [string, any]) => (
           <div className="flex space-x-3" key={key}>
             <span>{key}: </span>
@@ -61,7 +61,6 @@ export const SlipCard = (slip: Slip) => {
           <div className="view capitalize bg-breezyAqua text-azureOcean p-[0.2rem] rounded-lg">
             Process
           </div>
-          <div className=""></div>
         </div>
       </div>
     </div>

@@ -41,9 +41,6 @@ export const Dashboard = () => {
     <div className="h-screen bg-creamyPeach">
       <Navbar />
       <div className="p-10 overflow-auto bg-creamyPeach">
-        <h2 className="uppercase font-bold font-spaceGrotesk text-azureOcean text-4xl mb-3">
-          Slips
-        </h2>
         <div className="grid grid-cols-5 gap-y-10">
           {!loading ? (
             <>

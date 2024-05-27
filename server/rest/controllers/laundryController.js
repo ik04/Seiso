@@ -5,6 +5,10 @@ const getLaundries = async (req, res) => {
   const Laundries = await Laundry.find({});
   res.status(200).json({ laundries: Laundries });
 };
+const getLaundryNames = async (req, res) => {
+  const Laundries = await Laundry.find({}).select({ name: 1, slug: 1, _id: 0 });
+  res.status(200).json({ laundries: Laundries });
+};
 
 const addLaundry = async (req, res) => {
   try {
@@ -38,4 +42,5 @@ module.exports = {
   getLaundries,
   getSchema,
   addLaundry,
+  getLaundryNames,
 };
