@@ -6,11 +6,10 @@ import axios from "axios";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import { Slip } from "@/types/Slip";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Status } from "@/app/enums/Status";
 import { SlipCard } from "./SlipCard";
 
 export const Dashboard = () => {
-  const { token } = useContext(GlobalContext);
+  const { token, name } = useContext(GlobalContext);
   const [slips, setSlips] = useState<Slip[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -41,6 +40,9 @@ export const Dashboard = () => {
     <div className="h-screen bg-creamyPeach">
       <Navbar />
       <div className="p-10 overflow-auto bg-creamyPeach">
+        <h1 className="text-azureOcean font-limelight font-bold capitalize text-5xl py-2">
+          Hello {name}!
+        </h1>
         <div className="grid grid-cols-5 gap-y-10">
           {!loading ? (
             <>

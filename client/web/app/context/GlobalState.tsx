@@ -35,7 +35,7 @@ export const GlobalState = ({
     callUserData();
   }, []);
   return (
-    <GlobalContext.Provider value={{ token }}>
+    <GlobalContext.Provider value={{ token, name }}>
       {children}
     </GlobalContext.Provider>
   );
