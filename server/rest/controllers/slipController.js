@@ -63,7 +63,8 @@ const getSlips = async (req, res) => {
       path: "laundry",
       select: { name: 1, slug: 1, _id: 0 },
     })
-    .select({ items: 1, status: 1, uuid: 1, _id: 0, date: 1 });
+    .select({ items: 1, status: 1, uuid: 1, _id: 0, date: 1 })
+    .sort([["date", "desc"]]);
   const slipsWithTotalItems = slips.map((slip) => {
     const totalItems = Object.values(slip.items).reduce(
       (acc, val) => acc + val,

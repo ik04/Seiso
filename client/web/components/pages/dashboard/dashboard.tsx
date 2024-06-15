@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SlipCard } from "./SlipCard";
 
 export const Dashboard = () => {
-  const { token, name } = useContext(GlobalContext);
+  const { token } = useContext(GlobalContext);
   const [slips, setSlips] = useState<Slip[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -40,10 +40,12 @@ export const Dashboard = () => {
     <div className="h-screen bg-creamyPeach">
       <Navbar />
       <div className="p-10 overflow-auto bg-creamyPeach">
-        <h1 className="text-azureOcean font-limelight font-bold capitalize text-5xl py-2">
-          Hello {name}!
-        </h1>
         <div className="grid grid-cols-5 gap-y-10">
+          <Link href={"/slip/add"}>
+            <div className="bg-breezyAqua w-80 h-[30rem] flex justify-center items-center text-9xl font-spaceGrotesk text-sereneSky">
+              +
+            </div>
+          </Link>
           {!loading ? (
             <>
               {slips.map((slip) => (
@@ -57,11 +59,6 @@ export const Dashboard = () => {
                   total_items={slip.total_items}
                 />
               ))}
-              <Link href={"/slip/add"}>
-                <div className="bg-breezyAqua w-80 h-[30rem] flex justify-center items-center text-9xl font-spaceGrotesk text-sereneSky">
-                  +
-                </div>
-              </Link>
             </>
           ) : (
             <>
