@@ -27,6 +27,9 @@ const config = {
         azureOcean: "#39A7FF",
         sereneSky: "#87C4FF",
         breezyAqua: "#E0F4FF",
+        salmonPink: "#FC8082",
+        navyBlue: "#003F71",
+
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

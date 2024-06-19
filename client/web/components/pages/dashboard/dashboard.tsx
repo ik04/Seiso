@@ -6,7 +6,7 @@ import axios from "axios";
 import { GlobalContext } from "@/app/context/GlobalContext";
 import { Slip } from "@/types/Slip";
 import { Skeleton } from "@/components/ui/skeleton";
-import { SlipCard } from "./SlipCard";
+import { SlipCard } from "./slipCard";
 
 export const Dashboard = () => {
   const { token } = useContext(GlobalContext);
