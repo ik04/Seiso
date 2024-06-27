@@ -26,7 +26,8 @@ const formatDateString = (dateString: Date) => {
 export const SlipCard = (slip: Slip) => {
   const [status, setStatus] = useState(slip.status);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const process = async () => {
+
+  const processSlip = async () => {
     setIsLoading(true);
     try {
       const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/process/${slip.uuid}`;
@@ -39,6 +40,7 @@ export const SlipCard = (slip: Slip) => {
       setIsLoading(false);
     }
   };
+
   switch (status) {
     case 0:
       return (
@@ -77,7 +79,7 @@ export const SlipCard = (slip: Slip) => {
                 view
               </div>
               <button
-                onClick={process}
+                onClick={processSlip}
                 className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg"
               >
                 Process
