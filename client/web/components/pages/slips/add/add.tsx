@@ -83,7 +83,11 @@ export const AddPage = () => {
           date: date || undefined,
         };
         console.log(data);
-        const resp = await axios.post(url, data);
+        const resp = await axios.post(url, data, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         console.log(resp.data);
         setFormData({});
         toast.success("Added Slip successfully!");

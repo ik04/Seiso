@@ -1,8 +1,10 @@
 "use client";
+import { GlobalContext } from "@/app/context/GlobalContext";
 import { Status } from "@/app/enums/Status";
 import { Slip } from "@/types/Slip";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { HashLoader } from "react-spinners";
 
 const formatDateString = (dateString: Date) => {
   const date = new Date(dateString);
@@ -24,14 +26,23 @@ const formatDateString = (dateString: Date) => {
 };
 
 export const SlipCard = (slip: Slip) => {
+  const { token } = useContext(GlobalContext);
   const [status, setStatus] = useState(slip.status);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const processSlip = async () => {
     setIsLoading(true);
     try {
-      const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/process/${slip.uuid}`;
-      const resp = await axios.put(url);
+      const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/slip/process/${slip.uuid}`;
+      const resp = await axios.put(
+        url,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setStatus((prev) => prev + 1);
       setIsLoading(false);
     } catch (error) {
@@ -78,12 +89,22 @@ export const SlipCard = (slip: Slip) => {
               <div className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg">
                 view
               </div>
-              <button
-                onClick={processSlip}
-                className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg"
-              >
-                Process
-              </button>
+              {!isLoading ? (
+                <button
+                  onClick={processSlip}
+                  className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg"
+                >
+                  Process
+                </button>
+              ) : (
+                <button
+                  onClick={processSlip}
+                  className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg"
+                  disabled
+                >
+                  <HashLoader />
+                </button>
+              )}
             </div>
           </div>
         </div>
