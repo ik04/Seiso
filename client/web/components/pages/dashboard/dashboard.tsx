@@ -7,6 +7,7 @@ import { GlobalContext } from "@/app/context/GlobalContext";
 import { Slip } from "@/types/Slip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SlipCard } from "./slipCard";
+import { Toaster } from "sonner";
 
 export const Dashboard = () => {
   const { token } = useContext(GlobalContext);
@@ -39,6 +40,7 @@ export const Dashboard = () => {
   return (
     <div className="h-screen bg-creamyPeach">
       <Navbar />
+      <Toaster position="bottom-right" richColors expand={true} />
       <div className="p-10 overflow-auto bg-creamyPeach">
         <div className="grid grid-cols-5 gap-y-10">
           <Link href={"/slip/add"}>

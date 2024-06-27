@@ -58,7 +58,30 @@ const addSlip = async (req, res) => {
 
 const getSlips = async (req, res) => {
   const id = req.user._id;
-  const slips = await Slip.find({ user: id })
+  const slips = await Slip.find({ user: id, status: { $ne: Status.PROCESSED } })
+    .populate({
+      path: "laundry",
+      select: { name: 1, slug: 1, _id: 0 },
+    })
+    .select({ items: 1, status: 1, uuid: 1, _id: 0, date: 1 })
+    .sort([
+      ["date", "desc"],
+      ["status", "asc"],
+    ]);
+  const slipsWithTotalItems = slips.map((slip) => {
+    const totalItems = Object.values(slip.items).reduce(
+      (acc, val) => acc + val,
+      0
+    );
+    return { ...slip.toObject(), total_items: totalItems };
+  });
+
+  return res.status(200).json({ slips: slipsWithTotalItems });
+};
+
+const getFinishedSlips = async (req, res) => {
+  const id = req.user._id;
+  const slips = await Slip.find({ user: id, status: Status.PROCESSED })
     .populate({
       path: "laundry",
       select: { name: 1, slug: 1, _id: 0 },
@@ -117,10 +140,6 @@ const finishSlip = async (req, res) => {
 
   try {
     const slip = await Slip.findOne({ uuid });
-
-    if (slip.status === Status.PROCESSING) {
-      return res.status(409).json({ error: "Slip is already being processed" });
-    }
     if (slip.status === Status.PROCESSED) {
       return res.status(409).json({ error: "Slip is already processed" });
     }
@@ -155,4 +174,11 @@ const deleteSlip = async (req, res) => {
   return res.status(200).json({ message: "slip deleted!" });
 };
 
-module.exports = { addSlip, getSlips, finishSlip, processSlip, deleteSlip };
+module.exports = {
+  addSlip,
+  getSlips,
+  finishSlip,
+  processSlip,
+  deleteSlip,
+  getFinishedSlips,
+};

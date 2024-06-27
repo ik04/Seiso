@@ -4,7 +4,8 @@ import { Status } from "@/app/enums/Status";
 import { Slip } from "@/types/Slip";
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { HashLoader } from "react-spinners";
+import { BeatLoader } from "react-spinners";
+import { toast } from "sonner";
 
 const formatDateString = (dateString: Date) => {
   const date = new Date(dateString);
@@ -44,6 +45,28 @@ export const SlipCard = (slip: Slip) => {
         }
       );
       setStatus((prev) => prev + 1);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to process slip:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const finishSlip = async () => {
+    setIsLoading(true);
+    try {
+      const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/slip/finish/${slip.uuid}`;
+      const resp = await axios.put(
+        url,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setStatus((prev) => prev + 1);
+      toast.success("Slip processed successfully, shifted to the drawer!");
       setIsLoading(false);
     } catch (error) {
       console.error("Failed to process slip:", error);
@@ -99,10 +122,10 @@ export const SlipCard = (slip: Slip) => {
               ) : (
                 <button
                   onClick={processSlip}
-                  className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg"
+                  className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg justify-center items-center"
                   disabled
                 >
-                  <HashLoader />
+                  <BeatLoader color="#003F71" size={10} />
                 </button>
               )}
             </div>
@@ -142,12 +165,24 @@ export const SlipCard = (slip: Slip) => {
               </div>
             </div>
             <div className="buttons text-base text-center flex flex-col space-y-3 justify-center p-3 h-full">
-              <div className="view capitalize bg-breezyAqua text-navyBlue p-[0.2rem] rounded-lg">
+              <button className="view capitalize bg-breezyAqua text-navyBlue p-[0.2rem] rounded-lg">
                 view
-              </div>
-              <div className="view capitalize bg-breezyAqua text-navyBlue p-[0.2rem] rounded-lg">
-                Finish
-              </div>
+              </button>
+              {!isLoading ? (
+                <button
+                  onClick={finishSlip}
+                  className="view capitalize bg-breezyAqua text-navyBlue p-[0.2rem] rounded-lg"
+                >
+                  Recieved
+                </button>
+              ) : (
+                <button
+                  className="view capitalize bg-breezyAqua text-navyBlue p-[0.2rem] rounded-lg"
+                  disabled
+                >
+                  <BeatLoader color="#003F71" size={10} />
+                </button>
+              )}
             </div>
           </div>
         </div>
