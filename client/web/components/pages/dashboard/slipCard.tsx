@@ -3,6 +3,7 @@ import { GlobalContext } from "@/app/context/GlobalContext";
 import { Status } from "@/app/enums/Status";
 import { Slip } from "@/types/Slip";
 import axios from "axios";
+import { Trash } from "lucide-react";
 import React, { useContext, useState } from "react";
 import { BeatLoader } from "react-spinners";
 import { toast } from "sonner";
@@ -35,15 +36,11 @@ export const SlipCard = (slip: Slip) => {
     setIsLoading(true);
     try {
       const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/slip/delete/${slip.uuid}`;
-      const resp = await axios.put(
-        url,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const resp = await axios.delete(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setStatus(3);
       // ! make this dynamic, assign to greater than final enum to ensure card dissapears
       toast.info("Slip deleted successfully!");
@@ -67,6 +64,7 @@ export const SlipCard = (slip: Slip) => {
           },
         }
       );
+      toast.success("Laundry Submitted and Slip processed!");
       setStatus((prev) => prev + 1);
       setIsLoading(false);
     } catch (error) {
@@ -106,8 +104,11 @@ export const SlipCard = (slip: Slip) => {
           className="bg-salmonPink md:w-80 md:h-[30rem] text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
         >
           <div className="flex flex-col">
-            <div className="border-b-2 border-dashed border-creamyPeach text-center p-3 text-3xl">
-              <h2>{slip.laundry.name}</h2>
+            <div className="border-b-2 border-dashed border-creamyPeach text-start p-3 text-3xl">
+              <div className="flex">
+                <h2 className="flex-1">{slip.laundry.name}</h2>
+                <Trash onClick={deleteSlip} size={30} className="" />
+              </div>
               <div className="text-sm">
                 Submitted: {formatDateString(slip.date)}
               </div>
@@ -162,8 +163,11 @@ export const SlipCard = (slip: Slip) => {
           className="bg-azureOcean md:w-80 md:h-[30rem] text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
         >
           <div className="flex flex-col">
-            <div className="border-b-2 border-dashed border-creamyPeach text-center p-3 text-3xl">
-              <h2>{slip.laundry.name}</h2>
+            <div className="border-b-2 border-dashed border-creamyPeach text-start p-3 text-3xl">
+              <div className="flex">
+                <h2 className="flex-1">{slip.laundry.name}</h2>
+                <Trash onClick={deleteSlip} size={30} className="" />
+              </div>
               <div className="text-sm">
                 Submitted: {formatDateString(slip.date)}
               </div>
