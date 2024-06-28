@@ -31,6 +31,29 @@ export const SlipCard = (slip: Slip) => {
   const [status, setStatus] = useState(slip.status);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const deleteSlip = async () => {
+    setIsLoading(true);
+    try {
+      const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/slip/delete/${slip.uuid}`;
+      const resp = await axios.put(
+        url,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setStatus(3);
+      // ! make this dynamic, assign to greater than final enum to ensure card dissapears
+      toast.info("Slip deleted successfully!");
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Failed to delete slip:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const processSlip = async () => {
     setIsLoading(true);
     try {
@@ -69,7 +92,7 @@ export const SlipCard = (slip: Slip) => {
       toast.success("Slip processed successfully, shifted to the drawer!");
       setIsLoading(false);
     } catch (error) {
-      console.error("Failed to process slip:", error);
+      console.error("Failed to finish slip:", error);
     } finally {
       setIsLoading(false);
     }
