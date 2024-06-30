@@ -12,6 +12,7 @@ export const DrawerPage = () => {
   const { token } = useContext(GlobalContext);
   const [slips, setSlips] = useState<Slip[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const fetchFinishedSlips = async () => {
     if (token) {
       const resp = await axios.get(
@@ -23,8 +24,12 @@ export const DrawerPage = () => {
         }
       );
       setSlips(resp.data.slips);
+      console.log(resp.data.slips.length);
+
+      if (resp.data.slips.length == 0) {
+        setIsEmpty(true);
+      }
       setLoading(false);
-      console.log(resp);
     }
   };
   useEffect(() => {
@@ -32,39 +37,50 @@ export const DrawerPage = () => {
   }, [token]);
 
   return (
-    <div className="min-h-screen bg-creamyPeach">
+    <div className="min-h-screen bg-creamyPeach flex flex-col">
       <Navbar />
       <Toaster position="bottom-right" richColors expand={true} />
-      <div className="md:p-10 md:h-[90%] flex flex-col space-y-5">
+      <div className="md:p-10 flex-1 flex flex-col space-y-5">
         <h1 className="text-center font-spaceGrotesk md:font-bold text-azureOcean uppercase md:text-4xl">
           The Drawer
         </h1>
-        <div className="slips-container grid grid-cols-5 gap-y-10">
-          {!loading ? (
-            <>
-              {slips.map((slip) => (
-                <SlipCard
-                  date={slip.date}
-                  key={slip.uuid}
-                  items={slip.items}
-                  laundry={slip.laundry}
-                  status={slip.status}
-                  uuid={slip.uuid}
-                  total_items={slip.total_items}
-                />
-              ))}
-            </>
-          ) : (
-            <>
-              {Array.from({ length: 10 }, (_, index) => (
-                <Skeleton
-                  key={index}
-                  className="bg-sereneSky md:w-80 md:h-[30rem]"
-                />
-              ))}
-            </>
-          )}
-        </div>
+        {!isEmpty ? (
+          <div className="slips-container grid grid-cols-5 gap-y-10">
+            {!loading ? (
+              <>
+                {slips.map((slip) => (
+                  <SlipCard
+                    date={slip.date}
+                    key={slip.uuid}
+                    items={slip.items}
+                    laundry={slip.laundry}
+                    status={slip.status}
+                    uuid={slip.uuid}
+                    total_items={slip.total_items}
+                  />
+                ))}
+              </>
+            ) : (
+              <>
+                {Array.from({ length: 10 }, (_, index) => (
+                  <Skeleton
+                    key={index}
+                    className="bg-sereneSky md:w-80 md:h-[30rem]"
+                  />
+                ))}
+              </>
+            )}
+          </div>
+        ) : (
+          <div className="flex justify-center items-center flex-1">
+            <div className="">
+              <div className="image"></div>
+              <p className="font-spaceGrotesk text-azureOcean capitalize text-3xl">
+                The Drawer is empty
+              </p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

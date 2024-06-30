@@ -99,8 +99,8 @@ const getUserData = async (req, res) => {
 
 const logout = (req, res) => {
   res.clearCookie("at");
-
   res.status(200).json({ message: "Logged out successfully" });
 };
+// ! need to fix this
 
 module.exports = { login, signup, logout, getUserData };
