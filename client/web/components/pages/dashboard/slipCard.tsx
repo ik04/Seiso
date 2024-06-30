@@ -86,7 +86,9 @@ export const SlipCard = (slip: Slip) => {
           },
         }
       );
-      setStatus((prev) => prev + 1);
+      // setStatus((prev) => prev + 1);
+      setStatus(3);
+      // ! make this dynamic, assign to greater than final enum to ensure card dissapears
       toast.success("Slip processed successfully, shifted to the drawer!");
       setIsLoading(false);
     } catch (error) {
@@ -210,6 +212,46 @@ export const SlipCard = (slip: Slip) => {
                   <BeatLoader color="#003F71" size={10} />
                 </button>
               )}
+            </div>
+          </div>
+        </div>
+      );
+    case 2:
+      return (
+        <div
+          key={slip.uuid}
+          className="bg-green-700 md:w-80 md:h-[30rem] text-breezyAqua font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
+        >
+          <div className="flex flex-col">
+            <div className="border-b-2 border-dashed border-breezyAqua text-center p-3 text-3xl">
+              <div className="flex">
+                <h2 className="flex-1">{slip.laundry.name}</h2>
+              </div>
+              <div className="text-sm">
+                Submitted: {formatDateString(slip.date)}
+              </div>
+            </div>
+          </div>
+          <div className="flex-1 flex flex-col justify-start space-y-3 py-2">
+            {Object.entries(slip.items).map(([key, value]: [string, any]) => (
+              <div className="flex space-x-3" key={key}>
+                <span>{key}: </span>
+                <span>{value}</span>
+              </div>
+            ))}
+          </div>
+          <div className="flex-2 border-t-2 border-dashed border-breezyAqua flex items-start justify-between pt-3">
+            <div className="stats text-breezyAqua text-start p-2">
+              <div className="uppercase">Total: {slip.total_items}</div>
+              <div className="text-base">
+                <div className="uppercase">Status:</div>
+                <div className="uppercase text-creamyPeach">
+                  {Status[status as keyof typeof Status]}
+                </div>
+              </div>
+            </div>
+            <div className="buttons text-base text-center flex flex-col space-y-3 justify-center p-3 h-full">
+              <Trash onClick={deleteSlip} size={30} className="" />
             </div>
           </div>
         </div>

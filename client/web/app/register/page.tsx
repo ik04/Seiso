@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,9 +13,9 @@ const Page = () => {
   const [pass, setPass] = useState<string>("");
 
   const [errors, setErrors] = useState({
-    nameError: '',
-    passError: '',
-    emailError: ''
+    nameError: "",
+    passError: "",
+    emailError: "",
   });
 
   const validateEmail = (email: string) => {
@@ -23,47 +23,47 @@ const Page = () => {
     return re.test(String(email).toLowerCase());
   };
 
-  const handleSubmit = async(e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     let valid = true;
 
-    if (name.trim() === '') {
+    if (name.trim() === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        nameError: 'Name is required'
+        nameError: "Name is required",
       }));
       valid = false;
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        nameError: ''
+        nameError: "",
       }));
     }
 
     if (!validateEmail(email)) {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        emailError: 'Invalid email address'
+        emailError: "Invalid email address",
       }));
       valid = false;
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        emailError: ''
+        emailError: "",
       }));
     }
 
-    if (pass.trim() === '') {
+    if (pass.trim() === "") {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        passError: 'Password is required'
+        passError: "Password is required",
       }));
       valid = false;
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
-        passError: ''
+        passError: "",
       }));
     }
 
@@ -71,19 +71,24 @@ const Page = () => {
       try {
         const resp = await axios.post(
           `${process.env.NEXT_PUBLIC_SERVER_URL}/signup`,
-          { email, password : pass ,name },
+          { email, password: pass, name }
         );
-      
-      if(resp.status == 201 || resp.status == 200) {
+
+        if (resp.status == 201 || resp.status == 200) {
+          toast({
+            variant: "default",
+            title: "Account created successfully!",
+            description: "your account has been created successfully!",
+          });
+          location.href = "/login";
+        }
+      } catch (error: any) {
         toast({
-          variant: "default",
-          title: "Account created successfully!",
-          description: "",
+          title: error.response.data.message,
+          variant: "destructive",
+          description: "please re-fill your details",
         });
-      }
-      }
-      catch (e) {
-       console.error(e)
+        console.error(e);
       }
     }
   };
@@ -106,7 +111,9 @@ const Page = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          {errors.nameError && <p className="mt-1 text-red-500">{errors.nameError}</p>}
+          {errors.nameError && (
+            <p className="mt-1 text-red-500">{errors.nameError}</p>
+          )}
         </div>
 
         <Label className="capitalize text-azureOcean" htmlFor="email">
@@ -121,7 +128,9 @@ const Page = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          {errors.emailError && <p className="mt-1 text-red-500">{errors.emailError}</p>}
+          {errors.emailError && (
+            <p className="mt-1 text-red-500">{errors.emailError}</p>
+          )}
         </div>
         <Label className="capitalize text-azureOcean" htmlFor="password">
           password
@@ -135,7 +144,9 @@ const Page = () => {
             value={pass}
             onChange={(e) => setPass(e.target.value)}
           />
-          {errors.passError && <p className="mt-1 text-red-500">{errors.passError}</p>}
+          {errors.passError && (
+            <p className="mt-1 text-red-500">{errors.passError}</p>
+          )}
         </div>
         <Button
           variant={"ghost"}

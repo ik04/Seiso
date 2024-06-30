@@ -95,7 +95,6 @@ const getFinishedSlips = async (req, res) => {
     );
     return { ...slip.toObject(), total_items: totalItems };
   });
-
   return res.status(200).json({ slips: slipsWithTotalItems });
 };
 
