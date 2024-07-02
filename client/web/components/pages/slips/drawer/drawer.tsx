@@ -7,6 +7,7 @@ import { GlobalContext } from "@/app/context/GlobalContext";
 import { Slip } from "@/types/Slip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SlipCard } from "../../dashboard/slipCard";
+import Image from "next/image";
 
 export const DrawerPage = () => {
   const { token } = useContext(GlobalContext);
@@ -73,9 +74,14 @@ export const DrawerPage = () => {
           </div>
         ) : (
           <div className="flex justify-center items-center flex-1">
-            <div className="">
-              <div className="image"></div>
-              <p className="font-spaceGrotesk text-azureOcean capitalize text-3xl">
+            <div className="flex flex-col justify-center items-center space-y-4">
+              <Image
+                alt=""
+                src={"/assets/emptyDrawer.png"}
+                height={130}
+                width={130}
+              />
+              <p className="font-spaceGrotesk font-black text-azureOcean capitalize text-4xl">
                 The Drawer is empty
               </p>
             </div>
