@@ -12,6 +12,7 @@ export const GlobalState = ({
 }) => {
   const [name, setName] = useState<string>();
   const [token, setToken] = useState<string>();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const callUserData = async () => {
     try {
       const resp = await axios.get(
@@ -26,6 +27,7 @@ export const GlobalState = ({
       ] = `Bearer ${resp.data.token}`;
       setName(resp.data.user.name);
       setToken(resp.data.token);
+      setIsAuthenticated(true);
     } catch (err) {
       console.log(err);
     }
@@ -35,7 +37,7 @@ export const GlobalState = ({
     callUserData();
   }, []);
   return (
-    <GlobalContext.Provider value={{ token, name }}>
+    <GlobalContext.Provider value={{ token, name, isAuthenticated }}>
       {children}
     </GlobalContext.Provider>
   );
