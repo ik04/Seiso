@@ -18,7 +18,7 @@ export const Landing = () => {
           style={{ width: 800, height: 800 }}
         />
         <div className="flex flex-col space-y-10">
-          <div className="flex flex-col space-y-9 font-limelight text-azureOcean uppercase text-8xl mt-10">
+          <div className="flex flex-col space-y-2 font-limelight text-azureOcean uppercase text-[120px]">
             <h1>Track</h1>
             <h1>Your</h1>
             <h1>Apparel</h1>
