@@ -86,8 +86,8 @@ const getFinishedSlips = async (req, res) => {
       path: "laundry",
       select: { name: 1, slug: 1, _id: 0 },
     })
-    .select({ items: 1, status: 1, uuid: 1, _id: 0, date: 1 })
-    .sort([["date", "desc"]]);
+    .select({ items: 1, status: 1, uuid: 1, _id: 0, date: 1, finished_date: 1 })
+    .sort([["finished_date", "desc"]]);
   const slipsWithTotalItems = slips.map((slip) => {
     const totalItems = Object.values(slip.items).reduce(
       (acc, val) => acc + val,
@@ -144,7 +144,7 @@ const finishSlip = async (req, res) => {
     }
     const updatedSlip = await Slip.updateOne(
       { uuid },
-      { $set: { status: Status.PROCESSED } }
+      { $set: { status: Status.PROCESSED, finished_date: new Date() } }
     );
 
     if (updatedSlip.nModified === 0) {

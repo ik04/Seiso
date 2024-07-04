@@ -31,6 +31,9 @@ const slipSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
+  finished_date: {
+    type: Date,
+  },
 });
 
 const Slip = mongoose.model("Slip", slipSchema);

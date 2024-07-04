@@ -5,6 +5,7 @@ export interface Slip {
   status: number;
   total_items: number;
   date: Date;
+  finished_date?: Date;
 }
 
 // .d.ts files are for putting things in the global scope

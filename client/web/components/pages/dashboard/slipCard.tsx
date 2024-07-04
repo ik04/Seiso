@@ -245,8 +245,9 @@ export const SlipCard = (slip: Slip) => {
               <div className="uppercase">Total: {slip.total_items}</div>
               <div className="text-base">
                 <div className="uppercase">Status:</div>
-                <div className="uppercase text-creamyPeach">
-                  {Status[status as keyof typeof Status]}
+                <div className="uppercase text-sm text-creamyPeach">
+                  {Status[status as keyof typeof Status]} on{" "}
+                  {slip.finished_date && formatDateString(slip.finished_date)}
                 </div>
               </div>
             </div>

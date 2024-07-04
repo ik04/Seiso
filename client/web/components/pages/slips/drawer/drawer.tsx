@@ -58,6 +58,7 @@ export const DrawerPage = () => {
                     status={slip.status}
                     uuid={slip.uuid}
                     total_items={slip.total_items}
+                    finished_date={slip?.finished_date}
                   />
                 ))}
               </>
