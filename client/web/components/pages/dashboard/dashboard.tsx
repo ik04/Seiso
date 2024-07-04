@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { Navbar } from "./navbar";
+import Navbar from "./navbar";
 import Link from "next/link";
 import axios from "axios";
 import { GlobalContext } from "@/app/context/GlobalContext";

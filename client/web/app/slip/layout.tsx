@@ -1,15 +1,19 @@
-import { Dashboard } from "@/components/pages/dashboard/dashboard";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
 
-const page = async () => {
+export default async function SlipLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const cookieStore = cookies();
   const at = cookieStore.get("at");
   if (at == undefined || at == null) {
     return redirect("/login");
   }
+  console.log(at);
   try {
     const resp = await axios.get(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/user-data`,
@@ -25,12 +29,5 @@ const page = async () => {
       return redirect("/login");
     }
   }
-
-  return (
-    <div>
-      <Dashboard />
-    </div>
-  );
-};
-
-export default page;
+  return <div>{children}</div>;
+}

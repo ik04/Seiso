@@ -1,32 +1,20 @@
-"use client";
-import { GlobalContext } from "@/app/context/GlobalContext";
-import axios from "axios";
+import { cookies } from "next/headers";
 import Link from "next/link";
-import React, { useContext } from "react";
+import React from "react";
 import { toast } from "sonner";
 
-export const Navbar = () => {
-  const { token } = useContext(GlobalContext);
+export default function Navbar() {
   const navlinks = [
     { name: "home", href: "/dashboard" },
     { name: "drawer", href: "slip/drawer" },
     { name: "add", href: "/slip/add" },
     // { name: "laundries", href: "/laundries" },
   ];
-  const logout = async () => {
-    const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/logout`;
-    const resp = await axios.post(
-      url,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    toast.success("User logged out successfully!");
-    // location.href = "/";
-  };
+  // const logout = () => {
+  //   document.cookie = `at=; Max-Age=0; path=/;`;
+  //   toast.success("User logged out successfully!");
+  //   // location.href = "/login";
+  // };
   return (
     <div className="w-full border-[3px] p-3 md:p-5 border-b-azureOcean flex items-center justify-between">
       <h1 className="text-azureOcean font-limelight text-5xl tracking-widest uppercase text-center">
@@ -47,4 +35,4 @@ export const Navbar = () => {
       </div>
     </div>
   );
-};
+}
