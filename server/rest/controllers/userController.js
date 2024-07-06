@@ -49,7 +49,7 @@ const login = async (req, res) => {
     const token = createToken(user._id);
     res.cookie("at", token, {
       httpOnly: true,
-      secure: false,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       domain: "seiso.vercel.app", // for prod
     });
