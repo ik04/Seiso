@@ -50,7 +50,7 @@ const login = async (req, res) => {
     res.cookie("at", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       // domain:
       //   process.env.NODE_ENV === "production"
       //     ? "seiso.vercel.app"
