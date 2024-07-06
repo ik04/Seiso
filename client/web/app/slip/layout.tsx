@@ -13,7 +13,6 @@ export default async function SlipLayout({
   if (at == undefined || at == null) {
     return redirect("/login");
   }
-  console.log(at);
   try {
     const resp = await axios.get(
       `${process.env.NEXT_PUBLIC_SERVER_URL}/user-data`,
