@@ -20,7 +20,12 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "Hi from Seiso! ~ Ishaan Khurana" });
+  res
+    .status(200)
+    .json({
+      message: "Hi from Seiso! ~ Ishaan Khurana",
+      test: process.env.NODE_ENV === "production",
+    });
 });
 
 app.use("/laundry", laundryRoutes);
