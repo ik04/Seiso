@@ -19,7 +19,7 @@ app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("/healthcheck", (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).json({ message: "Hi from Seiso! ~ Ishaan Khurana" });
 });
 
