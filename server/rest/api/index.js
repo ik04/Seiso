@@ -39,7 +39,7 @@ const init = async (req, res) => {
       role: Role.ADMIN,
     });
 
-    const filePath = path.resolve(__dirname, "./data/laundry.json");
+    const filePath = path.resolve(__dirname, "../data/laundry.json");
     const data = await fs.readFile(filePath, "utf-8");
 
     const jsonData = JSON.parse(data);
