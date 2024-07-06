@@ -8,6 +8,7 @@ import { Toaster, toast } from "sonner";
 import { url } from "inspector";
 import { DatePicker } from "../datePicker";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
 
 export const AddPage = () => {
   const { token } = useContext(GlobalContext);
@@ -17,6 +18,7 @@ export const AddPage = () => {
   const [formData, setFormData] = useState<{ [key: string]: number }>({});
   const [over, setOver] = useState(false);
   const [date, setDate] = useState<Date>();
+  const router = useRouter();
 
   const callLaundries = async () => {
     if (token) {
@@ -94,6 +96,7 @@ export const AddPage = () => {
         console.log(resp.data);
         setFormData({});
         toast.success("Added Slip successfully!");
+        router.push("/dashboard");
       } else {
         toast.error("Please provide all required information.");
       }
