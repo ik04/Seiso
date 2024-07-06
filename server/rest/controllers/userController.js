@@ -52,9 +52,7 @@ const login = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: "Lax",
       domain:
-        process.env.NODE_ENV === "production"
-          ? "seiso.kaizenklass.me"
-          : "localhost",
+        process.env.NODE_ENV === "production" ? ".kaizenklass.me" : "localhost",
     });
     res.status(200).json({ message: "Logged in!", token });
   } catch (err) {
