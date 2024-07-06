@@ -75,7 +75,7 @@ const page = () => {
             className="bg-breezyAqua"
             id="password"
             name="password"
-            type="text"
+            type="password"
           />
           <Button
             type="submit"
