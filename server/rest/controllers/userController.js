@@ -52,7 +52,9 @@ const login = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       domain:
-        process.env.NODE_ENV === "production" ? ".vercel.app" : "localhost",
+        process.env.NODE_ENV === "production"
+          ? "seiso.vercel.app"
+          : "localhost",
     });
     res.status(200).json({ message: "Logged in!", token });
   } catch (err) {
