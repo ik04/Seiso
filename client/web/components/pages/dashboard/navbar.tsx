@@ -6,7 +6,7 @@ import { toast } from "sonner";
 export default function Navbar() {
   const navlinks = [
     { name: "home", href: "/dashboard" },
-    { name: "drawer", href: "slip/drawer" },
+    { name: "drawer", href: "/slip/drawer" },
     { name: "add", href: "/slip/add" },
     // { name: "laundries", href: "/laundries" },
   ];
