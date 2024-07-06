@@ -135,9 +135,9 @@ export const SlipCard = (slip: Slip) => {
               </div>
             </div>
             <div className="buttons text-base text-center flex flex-col space-y-3 justify-center p-3 h-full">
-              <div className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg">
+              {/* <div className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg">
                 view
-              </div>
+              </div> */}
               {!isLoading ? (
                 <button
                   onClick={processSlip}
@@ -194,9 +194,9 @@ export const SlipCard = (slip: Slip) => {
               </div>
             </div>
             <div className="buttons text-base text-center flex flex-col space-y-3 justify-center p-3 h-full">
-              <button className="view capitalize bg-breezyAqua text-navyBlue p-[0.2rem] rounded-lg">
+              {/* <button className="view capitalize bg-breezyAqua text-navyBlue p-[0.2rem] rounded-lg">
                 view
-              </button>
+              </button> */}
               {!isLoading ? (
                 <button
                   onClick={finishSlip}
