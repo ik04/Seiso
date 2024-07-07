@@ -109,7 +109,11 @@ export const SlipCard = (slip: Slip) => {
             <div className="border-b-2 border-dashed border-creamyPeach text-start p-3 text-3xl">
               <div className="flex">
                 <h2 className="flex-1">{slip.laundry.name}</h2>
-                <Trash onClick={deleteSlip} size={30} className="cursor-pointer" />
+                <Trash
+                  onClick={deleteSlip}
+                  size={30}
+                  className="cursor-pointer"
+                />
               </div>
               <div className="text-sm">
                 Submitted: {formatDateString(slip.date)}
@@ -168,7 +172,11 @@ export const SlipCard = (slip: Slip) => {
             <div className="border-b-2 border-dashed border-creamyPeach text-start p-3 text-3xl">
               <div className="flex">
                 <h2 className="flex-1">{slip.laundry.name}</h2>
-                <Trash onClick={deleteSlip} size={30} className="cursor-pointer" />
+                <Trash
+                  onClick={deleteSlip}
+                  size={30}
+                  className="cursor-pointer"
+                />
               </div>
               <div className="text-sm">
                 Submitted: {formatDateString(slip.date)}
