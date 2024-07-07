@@ -63,13 +63,13 @@ const init = async (req, res) => {
   }
 };
 
-app.get("/init", init);
-app.get("/nuke", async function (req, res) {
-  await User.deleteMany({});
-  await Laundry.deleteMany({});
-  await Slip.deleteMany({});
-  res.status(200).json({ message: "Nuked Collections" });
-});
+// app.get("/init", init);
+// app.get("/nuke", async function (req, res) {
+//   await User.deleteMany({});
+//   await Laundry.deleteMany({});
+//   await Slip.deleteMany({});
+//   res.status(200).json({ message: "Nuked Collections" });
+// });
 
 mongoose
   .connect(process.env.MONGO_URI)
