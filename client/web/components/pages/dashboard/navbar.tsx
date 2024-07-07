@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import React from "react";
 import { toast } from "sonner";
+import MobileMenu from "./mobile_menu";
 
 export default function Navbar() {
   const navlinks = [
@@ -20,7 +21,7 @@ export default function Navbar() {
       <h1 className="text-azureOcean font-limelight text-5xl tracking-widest uppercase text-center">
         Seiso
       </h1>
-      <div className="navlinks flex space-x-8 text-azureOcean font-spaceGrotesk font-semibold uppercase">
+      <div className="navlinks hidden sm:flex space-x-8 text-azureOcean font-spaceGrotesk font-semibold uppercase">
         {navlinks.map((navlink) => (
           <Link href={navlink.href} className="">
             {navlink.name}
@@ -32,6 +33,9 @@ export default function Navbar() {
         >
           logout
         </div> */}
+      </div>
+      <div className="sm:hidden block">
+          <MobileMenu/>
       </div>
     </div>
   );

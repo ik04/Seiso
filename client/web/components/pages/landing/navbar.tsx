@@ -19,19 +19,19 @@ export const Navbar = () => {
       <h1 className="text-azureOcean font-limelight text-5xl tracking-widest uppercase text-center">
         Seiso
       </h1>
-      <div className="navlinks flex space-x-8 text-azureOcean font-spaceGrotesk font-semibold uppercase">
+      <div className="navlinksflex space-x-4 xl:space-x-8 text-azureOcean font-spaceGrotesk font-semibold uppercase">
         {!isAuthenticated ? (
           <>
-            {navlinks.map((navlink) => (
-              <Link href={navlink.href} className="">
+            {navlinks.map((navlink,index) => (
+              <Link href={navlink.href} key={index} className="">
                 {navlink.name}
               </Link>
             ))}
           </>
         ) : (
           <>
-            {authLinks.map((navlink) => (
-              <Link href={navlink.href} className="">
+            {authLinks.map((navlink,index) => (
+              <Link href={navlink.href} key={index} className="">
                 {navlink.name}
               </Link>
             ))}

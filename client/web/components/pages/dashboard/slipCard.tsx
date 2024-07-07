@@ -103,13 +103,13 @@ export const SlipCard = (slip: Slip) => {
       return (
         <div
           key={slip.uuid}
-          className="bg-salmonPink md:w-80 md:h-[30rem] text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
+          className="bg-salmonPink w-full h-auto xl:w-80 text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
         >
           <div className="flex flex-col">
             <div className="border-b-2 border-dashed border-creamyPeach text-start p-3 text-3xl">
               <div className="flex">
                 <h2 className="flex-1">{slip.laundry.name}</h2>
-                <Trash onClick={deleteSlip} size={30} className="" />
+                <Trash onClick={deleteSlip} size={30} className="cursor-pointer" />
               </div>
               <div className="text-sm">
                 Submitted: {formatDateString(slip.date)}
@@ -162,13 +162,13 @@ export const SlipCard = (slip: Slip) => {
       return (
         <div
           key={slip.uuid}
-          className="bg-azureOcean md:w-80 md:h-[30rem] text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
+          className="bg-azureOcean w-full h-auto xl:w-80 text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
         >
           <div className="flex flex-col">
             <div className="border-b-2 border-dashed border-creamyPeach text-start p-3 text-3xl">
               <div className="flex">
                 <h2 className="flex-1">{slip.laundry.name}</h2>
-                <Trash onClick={deleteSlip} size={30} className="" />
+                <Trash onClick={deleteSlip} size={30} className="cursor-pointer" />
               </div>
               <div className="text-sm">
                 Submitted: {formatDateString(slip.date)}
@@ -220,7 +220,7 @@ export const SlipCard = (slip: Slip) => {
       return (
         <div
           key={slip.uuid}
-          className="bg-green-700 md:w-80 md:h-[30rem] text-breezyAqua font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
+          className="bg-green-700 w-full h-auto xl:w-80 text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
         >
           <div className="flex flex-col">
             <div className="border-b-2 border-dashed border-breezyAqua text-center p-3 text-3xl">
