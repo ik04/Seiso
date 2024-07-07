@@ -228,7 +228,7 @@ export const SlipCard = (slip: Slip) => {
       return (
         <div
           key={slip.uuid}
-          className="bg-green-700 w-full h-auto xl:w-80 text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
+          className="bg-green-700 w-full md:h-[30rem] xl:w-80 text-creamyPeach font-spaceGrotesk capitalize font-semibold md:text-2xl text-start flex flex-col justify-between py-5 px-3"
         >
           <div className="flex flex-col">
             <div className="border-b-2 border-dashed border-breezyAqua text-center p-3 text-3xl">
