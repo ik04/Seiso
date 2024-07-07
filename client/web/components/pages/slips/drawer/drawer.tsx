@@ -41,12 +41,12 @@ export const DrawerPage = () => {
     <div className="min-h-screen bg-creamyPeach flex flex-col">
       <Navbar />
       <Toaster position="bottom-right" richColors expand={true} />
-      <div className="md:p-10 flex-1 flex flex-col space-y-5">
-        <h1 className="text-center font-spaceGrotesk md:font-bold text-azureOcean uppercase md:text-4xl">
+      <div className="p-5 md:p-10 flex-1 flex flex-col space-y-5">
+        <h1 className="text-center font-spaceGrotesk md:font-bold text-azureOcean uppercase text-2xl md:text-4xl">
           The Drawer
         </h1>
         {!isEmpty ? (
-          <div className="slips-container grid grid-cols-5 gap-y-10">
+          <div className="slips-container grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-x-12 xl:gap-y-10">
             {!loading ? (
               <>
                 {slips.map((slip) => (

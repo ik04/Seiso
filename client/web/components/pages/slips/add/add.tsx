@@ -110,7 +110,7 @@ export const AddPage = () => {
     <div className="h-screen bg-creamyPeach">
       <Navbar />
       <Toaster position="bottom-right" richColors expand={true} />
-      <div className="p-10 flex flex-col items-center justify-center h-[90%]">
+      <div className="p-5 sm:p-10 flex flex-col items-center sm:justify-center h-[90%]">
         <div>
           <select
             value={laundry}
@@ -130,15 +130,15 @@ export const AddPage = () => {
           <div className="">
             <form
               onSubmit={addSlip}
-              className="flex flex-col space-y-5 items-center"
+              className="flex flex-col space-y-3 sm:space-y-5 items-center"
             >
               {schema.map((item) => (
                 <div
                   key={item}
-                  className="flex space-x-3 w-96 items-center justify-between text-azureOcean "
+                  className="flex space-x-3 w-full sm:w-96 items-center justify-between text-azureOcean "
                 >
                   <label
-                    className="text-azureOcean font-spaceGrotesk font-semibold capitalize"
+                    className="text-azureOcean sm:text-base text-sm font-spaceGrotesk font-semibold capitalize"
                     htmlFor={item}
                   >
                     {item}
