@@ -43,11 +43,11 @@ const page = () => {
 
       location.href = "/dashboard";
     } catch (error: any) {
-      // console.error("Network error:", error);
+      console.error("Network error:", error);
       toast({
         title: error.response.data.message,
         variant: "destructive",
-        description: "please re-fill your details",
+        description: "wrong email and password combination",
       });
     }
   };
