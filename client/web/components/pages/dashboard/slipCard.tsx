@@ -145,14 +145,14 @@ export const SlipCard = (slip: Slip) => {
               {!isLoading ? (
                 <button
                   onClick={processSlip}
-                  className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg"
+                  className="view capitalize bg-creamyPeach text-navyBlue p-[0.4rem] rounded-lg"
                 >
                   Process
                 </button>
               ) : (
                 <button
                   onClick={processSlip}
-                  className="view capitalize bg-creamyPeach text-navyBlue p-[0.2rem] rounded-lg justify-center items-center"
+                  className="view capitalize bg-creamyPeach text-navyBlue p-[0.4rem] rounded-lg justify-center items-center"
                   disabled
                 >
                   <BeatLoader color="#003F71" size={10} />
@@ -208,13 +208,13 @@ export const SlipCard = (slip: Slip) => {
               {!isLoading ? (
                 <button
                   onClick={finishSlip}
-                  className="view capitalize bg-breezyAqua text-navyBlue p-[0.2rem] rounded-lg"
+                  className="view capitalize bg-breezyAqua text-navyBlue p-[0.4rem] rounded-lg"
                 >
                   Recieved
                 </button>
               ) : (
                 <button
-                  className="view capitalize bg-breezyAqua text-navyBlue p-[0.2rem] rounded-lg"
+                  className="view capitalize bg-breezyAqua text-navyBlue p-[0.4rem] rounded-lg"
                   disabled
                 >
                   <BeatLoader color="#003F71" size={10} />
