@@ -6,7 +6,7 @@
         "pants/trousers/jeans",
         "shirts",
         "t-shirts",
-        "1/2 Phants/Shorts",
+        "1/2 Pants/Shorts",
         "towels",
         "Pillow Covers",
         "single bedsheet",
@@ -16,8 +16,8 @@
     {
       "name": "Spinlux",
       "schema": [
-        "Wahing and drying with ironing (KG/Load) Regular",
-        "Wahing and drying with ironing (KG/Load) Heavy",
+        "Washing and drying with ironing (KG/Load) Regular",
+        "Washing and drying with ironing (KG/Load) Heavy",
         "Dry Cleaning",
         "Steam Ironing",
         "Express Service",
