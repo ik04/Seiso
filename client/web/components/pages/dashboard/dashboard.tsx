@@ -42,11 +42,12 @@ export const Dashboard = () => {
       <Navbar />
       <Toaster position="bottom-right" richColors expand={true} />
       <div className="p-5 sm:p-10 overflow-auto bg-creamyPeach">
-        <div className="grid grid-cols-1 gap-4 sm:gap-10 sm:grid-cols-2 lg:gap-x-0 lg:grid-cols-3 xl:grid-cols-5 xl:gap-y-8">
-          <Link href={"/slip/add"}>
-            <div className="bg-breezyAqua w-full xl:w-80 h-auto sm:h-[20rem] lg:h-[30rem] flex justify-center items-center text-9xl font-spaceGrotesk text-sereneSky">
-              +
-            </div>
+        <div className="flex flex-wrap gap-5">
+          <Link
+            href={"/slip/add"}
+            className="bg-breezyAqua w-full xl:w-80 h-auto sm:h-[20rem] lg:h-[30rem] flex justify-center items-center text-9xl font-spaceGrotesk text-sereneSky"
+          >
+            <div>+</div>
           </Link>
           {!loading ? (
             <>

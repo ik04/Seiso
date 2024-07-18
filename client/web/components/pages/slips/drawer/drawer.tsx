@@ -46,7 +46,8 @@ export const DrawerPage = () => {
           The Drawer
         </h1>
         {!isEmpty ? (
-          <div className="slips-container grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-x-12 xl:gap-y-10">
+          // <div className="slips-container grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 xl:gap-x-12 xl:gap-y-10">
+          <div className="flex flex-wrap gap-5">
             {!loading ? (
               <>
                 {slips.map((slip) => (
