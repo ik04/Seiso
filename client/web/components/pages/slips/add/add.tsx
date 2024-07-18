@@ -23,7 +23,7 @@ export const AddPage = () => {
   const callLaundries = async () => {
     if (token) {
       const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/laundry/all`;
-      const resp = axios
+      const resp = await axios
         .get(url, {
           headers: {
             Authorization: `Bearer ${token}`,
